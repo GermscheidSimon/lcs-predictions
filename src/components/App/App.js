@@ -1,22 +1,32 @@
-
 import './App.css';
-import axios from 'axios'
+import React, {useEffect, useState} from 'react'
+import { connect } from 'react-redux';
+import mapStoreToProps from '../../redux/mapStoreToProps';
 
-function App() {
+import AppMenu from '../AppMenu/AppMenu'
+import PickEmGroup from '../PickEmGroup/PickEmGroup'
 
-  const getScheduleData = () => {
-   
+function App(props) {
+
+  const [profile, setProfile] = useState({})
+
+  const fetchUser = () => {
+
   }
 
+  useEffect(() => {
+    fetchUser()
+  }, [profile])
   
-
 
   return (
     <div className="App">
-     <h1>application</h1>
-      <button onClick={getScheduleData} >test</button>
+      <AppMenu />
+      <h1>application</h1>
+        <button>test</button>
+      <PickEmGroup />
     </div>
   );
 }
 
-export default App;
+export default connect(mapStoreToProps)(App);
