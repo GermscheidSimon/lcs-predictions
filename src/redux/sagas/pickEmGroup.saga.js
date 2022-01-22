@@ -6,11 +6,11 @@ function* fetchPickEmGroup(action) {
     try {
       console.log('fetch schedule');
       
-      const pickEmGroup = yield axios.get(`api/pickEmGroup/getGroups`)
+      const pickEmGroup = yield axios.get(`api/pickEmGroup/getMyGroups`)
 
       yield put({
           type: "SET_PICKEM_GROUP", 
-          payload: pickEmGroup.data
+          payload: pickEmGroup.data[0]
       });
     } catch (error) {
         // through client error if unsuccessful
@@ -20,9 +20,9 @@ function* fetchPickEmGroup(action) {
   }
 
 
-  function* ScheduleSaga() {
+  function* pickEmGroupSaga() {
       yield takeLatest('FETCH_PICKEM_GROUP', fetchPickEmGroup)
 
     }
   
-  export default ScheduleSaga;
+  export default pickEmGroupSaga;

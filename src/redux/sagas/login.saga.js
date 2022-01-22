@@ -5,7 +5,7 @@ import axios from 'axios';
 function* loginUser(action) {
   try {
 
-    yield put({ type: 'CLEAR_LOGIN_ERROR' });
+    yield put({ type: 'ATTEMPTING_LOGIN' });
     console.log('hello from saga');
     const config = {
       headers: { 'Content-Type': 'application/json' },

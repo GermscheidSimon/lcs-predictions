@@ -2,24 +2,34 @@ import React, {useEffect, useState}  from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 
-function PickEmGroup(props) {
-    const [groups, setGroup] = useState("")
+import PickEmGroupCard from './PickEmGroupCard';
+import CreatePickEm from './CreatePickEm'
 
+function PickEmGroup(props) {
 
     const fetchLeagueSchedule = async () => {
         await props.dispatch({
             type: "FETCH_PICKEM_GROUP",
             payload: "LCS"
         });
-        setGroup(props.store.pickEmGroup)
+
     }
-    useEffect(() => {
-        fetchLeagueSchedule()
-    }, [groups])
+    useEffect(async () => {
+        await fetchLeagueSchedule()
+    }, [])
 
   return (
     <div className="PickEmGroup">
-        {JSON.stringify(props.store.pickEmGroup)}
+        {
+            props.store.pickEmGroup &&
+                props.store.pickEmGroup.map( (group) => {
+                    console.log(group._id)
+                    return <PickEmGroupCard pickEmGroup={group} />
+                })
+            
+            
+        }
+        <CreatePickEm />
     </div>
   );
 }

@@ -6,19 +6,23 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-export default function MenuAppBar() {
+import { connect } from 'react-redux';
+import mapStoreToProps from '../../redux/mapStoreToProps';
+
+function MenuAppBar(props) {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
+
+  const handleLogout = (event) => {
+    props.dispatch({ type: 'LOGOUT' })
+  }
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,18 +34,7 @@ export default function MenuAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup>
+    
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -54,9 +47,9 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Pick Ems
+            LoL Pro Lague Predictions
           </Typography>
-          {auth && (
+          {props.store.user._id && (
             <div>
               <IconButton
                 size="large"
@@ -85,6 +78,7 @@ export default function MenuAppBar() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogout}>Lockout</MenuItem>
               </Menu>
             </div>
           )}
@@ -93,3 +87,5 @@ export default function MenuAppBar() {
     </Box>
   );
 }
+
+export default connect(mapStoreToProps)(MenuAppBar)

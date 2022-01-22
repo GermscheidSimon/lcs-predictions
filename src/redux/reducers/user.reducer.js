@@ -1,9 +1,13 @@
-const userReducer = (state = {}, action) => {
+const userReducer = (state = {
+    render: "DEFAULT"
+}, action) => {
     switch (action.type) {
       case 'SET_USER':
         return action.payload;
       case 'UNSET_USER':
-        return {};
+        return {
+            render: "COMPLETE"
+        };
       default:
         return state;
     }
