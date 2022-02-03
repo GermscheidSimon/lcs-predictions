@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 
 import AppMenu from '../AppMenu/AppMenu'
-import PickEmGroup from '../PickEmGroup/PickEmGroup'
+import ListPickEmGroups from '../PickEmGroup/ListPickEmGroups'
 import LoginForm from '../LoginForm/LoginForm'
+
+import DateHelper from '../../Helpers/DateHelper.js';
 
 
 import {
@@ -19,12 +21,21 @@ import {
   import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'; // client side authorization 
   import LoginPage from '../LoginPage/LoginPage';
   import RegisterPage from '../RegisterPage/RegisterPage';
+  import PickEmGroup from '../PickEmGroup/PickEmGroup';
 
 
 function App(props) {
 
   const fetchUser = async () => {
     await props.dispatch({ type: 'FETCH_USER' })
+
+    const time = DateHelper.getCurrentTime()
+    console.log(time)
+    const toCmp = new Date('2022/1/31')
+    console.log(toCmp)
+    const isSameWeek = DateHelper.checkIfSameWeek(toCmp)
+    console.log(isSameWeek)
+    console.log(DateHelper.getWeekOfYear)
   }
 
   useEffect(() => {
@@ -58,7 +69,7 @@ function App(props) {
                   // if user signed in, display PickEmGroup, else display login
                   exact
                   path={`/home`}
-                  authRedirect="/pickEmGroups"
+                  authRedirect="/ListPickEmGroups"
                   component={LoginPage} 
                 />
               :
@@ -69,7 +80,13 @@ function App(props) {
             <ProtectedRoute
               // if user signed in, display PickEmGroup, else display login
               exact
-              path={`/pickEmGroups`}
+              path={`/ListPickEmGroups`}
+              component={ListPickEmGroups} 
+            />
+            <ProtectedRoute
+              // if user signed in, allow user to visit a playlist by ID.
+              exact
+              path={`/pickEmGroup/:id`}
               component={PickEmGroup} 
             />
              

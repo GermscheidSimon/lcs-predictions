@@ -71,7 +71,7 @@ class Match {
 }
 
 const matchModels = {
-    match = Match
+    match = Match,
     game = Game
 }
 

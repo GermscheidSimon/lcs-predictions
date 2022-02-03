@@ -10,7 +10,6 @@ function* fetchUser() {
     };
 
     const response = yield axios.get('/api/user', config);
-    console.log(response)
 
     yield put({ type: 'SET_USER', payload: {...response.data, render: "COMPLETE" }});
   } catch (error) {

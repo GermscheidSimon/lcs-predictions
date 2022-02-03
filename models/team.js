@@ -7,7 +7,7 @@
 //         "gameWins": 1
 //     },
 //     "record": {
-//         "wins": 2,
+//         "wins": 2, 
 //         "losses": 0
 //     }
 // }

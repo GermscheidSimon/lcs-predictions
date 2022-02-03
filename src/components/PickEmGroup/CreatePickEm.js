@@ -1,8 +1,12 @@
-import React  from 'react';
+import React, { Component }  from 'react';
 import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
+import axios from 'axios';
+
 
 import PickEmGroupCard from './PickEmGroupCard';
+
+import AddIcon from '@mui/icons-material/Add';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,9 +20,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import ListItemButton from '@mui/material/ListItemButton';
+
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const style = {
   position: 'absolute',
@@ -32,85 +37,232 @@ const style = {
   p: 4,
 };
 
-const fetchLeagues = () => {
+class CreatePickEm extends Component{
 
-}
-const fetchLeagueTournaments = () => {
-
-}
-const postNewPickEmGroup = () => {
-    
-}
-
-function CreatePickEm() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  return (
-
-
-    <div>
-        <PickEmCard handleOpen={handleOpen}/>
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
+    state = {
+        leagues: [],
+        tourns: [],
+        open: false,
+        chosenLeague: null,
+        chosenTourn: null,
+        renderFinishOpt: false,
+        groupName: ''
+    }
+    fetchLeagues =  () => {
+        console.log('sup')
+          axios.get('/api/schedule/fetchLeagues')
+              .then((res) => {
+                  this.setState({
+                      ...this.state,
+                      leagues: res.data.data.leagues
+                  })
+              })
+              .catch((err) => {
+                  console.log(err)
+          })
+    }
+    handleOpen = () => {
+        this.fetchLeagues()
+        this.setState({
+            ...this.state,
+            open: true
+        })         
+    }
+    handleClose = () => {
+        this.setState({
+            leagues: [],
+            tourns: [],
+            open: false,
+            chosenLeague: null,
+            chosenTourn: null,
+            renderFinishOpt: false,
+            groupName: ''
+        })         
+    }
+    handleLeagueSelected = (event, li) => {
+        axios.get(`/api/schedule/fetchTournByLeageID/${li.id}`)
+        .then((res) => {
+            this.setState({
+                ...this.state,
+                tourns: res.data.data.leagues[0].tournaments,
+                chosenLeague: li
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+    handleTournSelected = (event, li) => {
+        this.setState({
+            ...this.state,
+            chosenTourn: li,
+            renderFinishOpt: true
+        })
+    }
+    finishSetup = () => {
+        const pickEm = {
+            league: this.state.chosenLeague,
+            tourn: this.state.chosenTourn,
+            groupName: this.state.groupName
+        }
+        axios.post(`/api/pickEmGroup/createNewGroup`, pickEm)
+        .then((res) => {
+            this.handleClose()
+        })
+    }
+    handleChaneGroupName = (event) => {
+        this.setState({
+            ...this.state,
+            groupName: event.target.value
+        })
+    }
+    render(){
+        return(
+            <div>
+            <PickEmCard handleOpen={this.handleOpen} className="groupCard"/>
+            <Modal
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
             <Box sx={style}>
             <Typography id="modal-modal-title" variant="h4" component="h2">
                 Create Pick-Em Group
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Choose a Pro League:
-            </Typography>
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    <ListItem>
-                        <ListItemAvatar>
-                        <Avatar>
-                            <ImageIcon />
-                        </Avatar>
-                    </ListItemAvatar>
-                        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemAvatar>
-                        <Avatar>
-                            <WorkIcon />
-                        </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="Work" secondary="Jan 7, 2014" />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemAvatar>
-                        <Avatar>
-                            <BeachAccessIcon />
-                        </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="Vacation" secondary="July 20, 2014" />
-                    </ListItem>
-                </List>
+            <PickEmGroupDetails handleChaneGroupName={this.handleChaneGroupName}/>
+                {
+                    this.state.chosenLeague === null ?
+                        <LeaguePicker leagues={this.state.leagues} handleSelectLeague={this.handleLeagueSelected}/>
+                    :
+                        <TournPicker tourns={this.state.tourns} handleTournSelected={this.handleTournSelected}/>
+                    }
+                {
+                    this.state.renderFinishOpt ? 
+                        <Finish FinishSetup={this.finishSetup}/>
+                        :
+                        <></>
+                }
             </Box>
-        </Modal>
-    </div>
-  );
+            </Modal>
+        </div>
+        )
+    };
 }
+
 
 const PickEmCard = (props) => {
     return (
-            <Card>
-              <CardActionArea  sx={{ maxWidth: 350, minHeight: 275 }} onClick={() => props.handleOpen()}>
+        <div className="groupCard">
+            <Card sx={{height: 100}}>
+              <CardActionArea onClick={() => props.handleOpen()} sx={{height: 100}}>
 
                 <CardContent>
+               
                   <Typography gutterBottom variant="h5" component="div">
-                   Create new Pick-Em Group
+                    New Group
                   </Typography>
                     
                 </CardContent>
               </CardActionArea>
             </Card>
+        </div>
     );
+}
+
+
+
+const LeaguePicker = (props) => {
+    return(
+        <>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Choose a Pro League:
+            </Typography>
+                <List sx={{ width: '100%', maxWidth: 600, maxHeight: 400, bgcolor: 'background.paper', overflow: 'auto' }}>
+                    {
+                        props.leagues.length > 0 ?
+                        props.leagues.map((li) => {
+                            return (
+                                <ListItem>
+                                    <ListItemButton onClick={(event) => props.handleSelectLeague(event, li)}>
+                                        <ListItemAvatar>
+                                            <Avatar src={li.image}>
+                                                
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={li.name} secondary={li.region} />
+                                    </ListItemButton>
+                                </ListItem>
+                            )
+                        })
+                        :
+                        <div>loading leagues ...</div>
+                    }
+                
+                </List>
+        </>             
+    )
+}
+
+const TournPicker = (props) => {
+    return(
+        <>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Choose a tournament:
+            </Typography>
+                <List sx={{ width: '100%', maxWidth: 600, maxHeight: 400, bgcolor: 'background.paper', overflow: 'auto' }}>
+                    {
+                        props.tourns.length > 0 ?
+                        props.tourns.map((li) => {
+                            return (
+                                <ListItem>
+                                    <ListItemButton onClick={(event) => props.handleTournSelected(event, li)}>
+
+                                        <ListItemText primary={li.slug} secondary={li.startDate} />
+                                    </ListItemButton>
+                                </ListItem>
+                            )
+                        })
+                        :
+                        <div>loading tournaments ...</div>
+                    }
+                
+                </List>
+        </>             
+    )
+}
+const PickEmGroupDetails = (props) => {
+    return(
+        <>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+               PickEm' Group Details:
+            </Typography>
+            <Box
+                component="form"
+                sx={{
+                    '& > :not(style)': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <div>
+                    <TextField id="outlined-basic" label="Group Name" variant="outlined" onChange={(event) => props.handleChaneGroupName(event)}/>
+                </div>
+                
+            </Box>
+        </>             
+    )
+}
+
+const Finish = (props) => {
+    return(
+        <Button 
+            variant="contained"
+            onClick={props.FinishSetup}
+            >
+            Finish
+        </Button>
+    )
 }
 
 

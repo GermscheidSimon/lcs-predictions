@@ -1,3 +1,25 @@
 body{
     margin: 0;
+    background-color: #242424;
+    color: white;
+}
+.ListPickEmGroups{
+    margin: 1%;
+}
+.groupCard{
+    margin-bottom: 10px;
+}
+.PickEmWeek{
+
+}
+.groupName{
+    margin-left: 20px;
+    margin-top: 20px
+}
+.PickEmMatch{
+    height: 100px;
+}
+.match-VS-text{
+    margin-top: 35px;
+    margin-bottom: 30px;
 }

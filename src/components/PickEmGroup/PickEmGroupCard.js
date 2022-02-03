@@ -11,22 +11,23 @@ import { CardActionArea } from '@mui/material';
 const PickEmGroupCard = (props) => {
 
 
-
     return (
-            <Card sx={{ maxWidth: 350, minHeight: 275 }}>
-              <CardActionArea sx={{ maxWidth: 350, minHeight: 275 }}>
+        <div  className="groupCard" onClick={() => props.openGroup(props.pickEmGroup._id)}>
+            <Card >
+              <CardActionArea sx={{height: 100}} >
 
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Group Name: {props.pickEmGroup.name + '\n'}
-                    Pro League: {props.pickEmGroup.league + '\n'}
+                    Group: {props.pickEmGroup.name}
+                    
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                   {JSON.stringify(props.pickEmGroup)}
+                    Pro League: {props.pickEmGroup.league.name}
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
+        </div>  
     );
 }
 

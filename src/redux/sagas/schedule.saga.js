@@ -4,7 +4,6 @@ import { put, takeLatest, takeEvery } from 'redux-saga/effects';
 
 function* fetchSchedule(action) {
     try {
-      console.log('fetch schedule');
       
       const scheduleData = yield axios.get(`api/schedule/fetchSchedules`)
 
