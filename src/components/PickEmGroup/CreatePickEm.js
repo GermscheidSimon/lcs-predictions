@@ -49,8 +49,8 @@ class CreatePickEm extends Component{
         groupName: ''
     }
     fetchLeagues =  () => {
-        console.log('sup')
-          axios.get('/api/schedule/fetchLeagues')
+
+          axios.get('https://pro-lague-api.herokuapp.com/api/schedule/fetchLeagues')
               .then((res) => {
                   this.setState({
                       ...this.state,
@@ -80,7 +80,7 @@ class CreatePickEm extends Component{
         })         
     }
     handleLeagueSelected = (event, li) => {
-        axios.get(`/api/schedule/fetchTournByLeageID/${li.id}`)
+        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`)
         .then((res) => {
             this.setState({
                 ...this.state,
@@ -105,7 +105,7 @@ class CreatePickEm extends Component{
             tourn: this.state.chosenTourn,
             groupName: this.state.groupName
         }
-        axios.post(`/api/pickEmGroup/createNewGroup`, pickEm)
+        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm)
         .then((res) => {
             this.handleClose()
         })

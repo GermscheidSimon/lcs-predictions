@@ -5,7 +5,7 @@ import { put, takeLatest, takeEvery } from 'redux-saga/effects';
 function* fetchSchedule(action) {
     try {
       
-      const scheduleData = yield axios.get(`api/schedule/fetchSchedules`)
+      const scheduleData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchSchedules`)
 
       yield put({
           type: "SET_SCHEDULE", 
