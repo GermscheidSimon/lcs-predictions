@@ -13,7 +13,9 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  useNavigate
+  useNavigate,
+  useParams,
+  useLocation
 } from "react-router-dom";
 
   // login & register -- 
@@ -27,6 +29,43 @@ const Home = () => {
   }, [])
 
   return <></> 
+}
+
+const Redirect = (props) => {
+  let CompToShow = props.component
+  
+  const checkforuser = () => {
+    if(props.user.render === 'COMPLETE'  && props.user.username !== undefined) {
+      return true
+    } else {
+      return false
+    }
+  }
+  const checkForAuthComp = () => {
+    console.log(!props.authredict && props.authComp !== undefined)
+    if(!props.authredict && props.authComp !== undefined) {
+      CompToShow = props.authComp
+    }
+  }
+  checkForAuthComp()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const params = useParams()
+
+  useEffect(() =>{
+    console.log('ope')
+    if(checkforuser()){
+      if(props.authredict) {
+        navigate(`${props.path}`, { replace: true })
+      }
+    } else {
+      if(props.authredict !== true) {
+        navigate(`${props.path}`, { replace: true })
+      }
+    }
+    
+  }, [props.user.username])
+  return < CompToShow location={location} params={params}/>
 }
 function App(props) {
 
@@ -45,6 +84,7 @@ function App(props) {
   const logout = () => {
     props.dispatch({ type: 'LOGOUT' })
   }
+  
 
   return (
     <div className="App"> 
@@ -57,26 +97,25 @@ function App(props) {
 
             {
               props.store.user.render === "COMPLETE" ?
+                <>
                   <Route
                   // if user signed in, display PickEmGroup, else display login
                     path={`/home`}
-                    element={<LoginPage />} 
+                    element={<Redirect path={'/ListPickEmGroups'} authredict={true} user={props.store.user} component={LoginPage}/>} 
                   />
+                  <Route
+                    path={`/ListPickEmGroups`}
+                    element={<Redirect path={'/home'} user={props.store.user} user={props.store.user} authredict={false} component={LoginPage} authComp={ListPickEmGroups}/>} 
+                  />
+                  <Route
+                    path='/pickEmGroup/:id'
+                    element={<Redirect path={'/home'} user={props.store.user} user={props.store.user} authredict={false} component={LoginPage} authComp={PickEmGroup}/>} 
+                  />
+                </>
               :
               <></>
 
             }
-            
-            <Route
-              path={`/ListPickEmGroups`}
-              element={<ListPickEmGroups />} 
-            />
-            <Route
-              path='/pickEmGroup/:id'
-              element={<PickEmGroup />} 
-            />
-             
-              {/* If none of the other routes matched, we will show a 404. */}
             
           </Routes >
         </div>

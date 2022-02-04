@@ -44,13 +44,15 @@ class PickEmGroup extends Component{
     }
 
     componentDidMount = async () => {
+      console.log(this.props.params)
         await this.props.dispatch({
             type: "FETCH_GROUP_BY_ID",
-            payload: this.props.match.params
+            payload: this.props.params.id
         });
     }
     componentDidUpdate = () =>{
-      if (this.props.store.group.events.length > 0 && !this.state.weekFound ){
+      if (this.props.store.group.events.length > 0 && this.state.weekFound !== true){
+
         this.renderWeeks()
       }
     }
@@ -60,14 +62,17 @@ class PickEmGroup extends Component{
         const weeks = Object.entries(this.props.store.group.eventWeeks)
         let weekArry = []
         let eventIndex = null
+        let localFound = false
         weeks.forEach( ([key, value], index) => {
             weekArry.push(value)
             let isCurrentEvent = DateHelper.checkIfSameWeek(new Date(value.start))
+            console.log('iscurr', isCurrentEvent)
             if (isCurrentEvent) {
               eventIndex = index
+              localFound =true
             }
         })
-        if(eventIndex !== null){
+        if(eventIndex !== null && localFound !== false){
           this.setState({
             weeks: weekArry,
             value: eventIndex,
@@ -77,9 +82,9 @@ class PickEmGroup extends Component{
         } else {
           this.setState({
             weeks: weekArry,
-            value: eventIndex,
-            weekFound: false,
-            curWeekIndex: null
+            value: 0,
+            weekFound: true,
+            curWeekIndex: 0
           })
         }
         

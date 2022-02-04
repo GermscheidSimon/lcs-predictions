@@ -3,11 +3,6 @@ import { connect } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
 import axios from 'axios';
 
-
-import PickEmGroupCard from './PickEmGroupCard';
-
-import AddIcon from '@mui/icons-material/Add';
-
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -80,7 +75,7 @@ class CreatePickEm extends Component{
         })         
     }
     handleLeagueSelected = (event, li) => {
-        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`)
+        axios.get(`/api/schedule/fetchTournByLeageID/${li.id}`)
         .then((res) => {
             this.setState({
                 ...this.state,
@@ -105,7 +100,7 @@ class CreatePickEm extends Component{
             tourn: this.state.chosenTourn,
             groupName: this.state.groupName
         }
-        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm)
+        axios.post(`/api/pickEmGroup/createNewGroup`, pickEm)
         .then((res) => {
             this.handleClose()
         })

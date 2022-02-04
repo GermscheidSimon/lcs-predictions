@@ -5,7 +5,7 @@ import { put, takeLatest} from 'redux-saga/effects';
 function* fetchPickEmGroup(action) {
     try {
       
-      const pickEmGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getMyGroups`)
+      const pickEmGroup = yield axios.get(`/api/pickEmGroup/getMyGroups`)
 
       yield put({
           type: "SET_PICKEM_GROUP", 
@@ -14,12 +14,11 @@ function* fetchPickEmGroup(action) {
     } catch (error) {
         // through client error if unsuccessful
       console.log('Failed to fetch schedule!',error);
-      alert('Failed to Load your schedule information! Please try again.')
     }
   }
 function* fetchGroupByID(action){ 
     try {
-        const pickemGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getGroup/${action.payload.id}`)
+        const pickemGroup = yield axios.get(`/api/pickEmGroup/getGroup/${action.payload}`)
 
         yield put({
             type: "SET_GROUP",
@@ -28,12 +27,11 @@ function* fetchGroupByID(action){
     } catch (error) {
         //  client error if unsuccessful
       console.log('Failed to fetch schedule!',error);
-      alert('Failed to Load your schedule information! Please try again.')
     }
 }
 function* fetchTeams(action){ 
   try {
-      const standingsData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/getstandings/${action.payload}`)
+      const standingsData = yield axios.get(`/api/schedule/getstandings/${action.payload}`)
       const standings = standingsData.data.data.standings[0].stages[0].sections[0].rankings
       let teams = []
       for (const rank of standings) {
@@ -46,13 +44,12 @@ function* fetchTeams(action){
       })
   } catch (error) {
       //  client error if unsuccessful
-    console.log('Failed to fetch teams!',error);
   }
 }
 
 function* updatePrediction(action){ 
   try {
-      yield axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/prediction`, action.payload)
+      yield axios.post(`/api/pickEmGroup/prediction`, action.payload)
       
       yield put({
           type: "FETCH_GROUP_BY_ID",
@@ -65,7 +62,7 @@ function* updatePrediction(action){
 }
 function* joinGroup(action){ 
   try {
-      yield axios.put(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/joinGroup`, {code: action.payload})
+      yield axios.put(`/api/pickEmGroup/joinGroup`, {code: action.payload})
       
 
   } catch (error) {

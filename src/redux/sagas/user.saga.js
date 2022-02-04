@@ -9,7 +9,7 @@ function* fetchUser() {
       withCredentials: true,
     };
 
-    const response = yield axios.get('https://pro-lague-api.herokuapp.com/api/user', config);
+    const response = yield axios.get('/api/user', config);
 
     yield put({ type: 'SET_USER', payload: {...response.data, render: "COMPLETE" }});
   } catch (error) {
