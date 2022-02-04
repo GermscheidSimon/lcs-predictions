@@ -52,5 +52,6 @@
   },
   "devDependencies": {
     "mini-css-extract-plugin": "2.4.5"
-  }
+  },
+  "heroku-run-build-script": true
 }
