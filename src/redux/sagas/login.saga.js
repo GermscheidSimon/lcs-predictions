@@ -36,7 +36,7 @@ function* logoutUser(action) {
       withCredentials: true,
     };
 
-    yield axios.post('https://pro-lague-api.herokuapp.com/api/user/logout', config);
+    yield axios.post('/api/user/logout', config);
 
 
     yield put({ type: 'UNSET_USER' });

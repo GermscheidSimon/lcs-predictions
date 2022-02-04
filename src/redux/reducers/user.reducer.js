@@ -1,5 +1,5 @@
 const userReducer = (state = {
-    render: "DEFAULT"
+    render: "COMPLETE"
 }, action) => {
     switch (action.type) {
       case 'SET_USER':

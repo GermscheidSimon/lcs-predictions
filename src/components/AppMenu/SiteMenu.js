@@ -81,7 +81,7 @@ const SiteMenu = (props) => {
                     },
                 }}
             >
-                <MenuItem key={'a'} selected={'Pyxis'} onClick={handleJoinGruopOpen}>
+                <MenuItem key={'joinGroupThing'} onClick={handleJoinGruopOpen}>
                     Join Group
                 </MenuItem>
             </Menu>
