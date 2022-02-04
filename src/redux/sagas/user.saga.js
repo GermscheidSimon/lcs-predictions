@@ -7,6 +7,7 @@ function* fetchUser() {
     const config = {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
+      crossDomain: true
     };
 
     const response = yield axios.get('https://pro-lague-api.herokuapp.com/api/user', config);
