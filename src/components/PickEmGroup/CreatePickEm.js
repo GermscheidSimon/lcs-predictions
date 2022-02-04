@@ -20,6 +20,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -75,7 +76,7 @@ class CreatePickEm extends Component{
         })         
     }
     handleLeagueSelected = (event, li) => {
-        axios.get(`/api/schedule/fetchTournByLeageID/${li.id}`)
+        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`)
         .then((res) => {
             this.setState({
                 ...this.state,
@@ -100,7 +101,7 @@ class CreatePickEm extends Component{
             tourn: this.state.chosenTourn,
             groupName: this.state.groupName
         }
-        axios.post(`/api/pickEmGroup/createNewGroup`, pickEm)
+        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm)
         .then((res) => {
             this.handleClose()
         })

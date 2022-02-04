@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+console.log(env)
+
 // Redux // Sagas
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';

@@ -12,7 +12,7 @@ function* loginUser(action) {
       withCredentials: true,
     };
 
-    yield axios.post('/api/user/login', action.payload, config);
+    yield axios.post('https://pro-lague-api.herokuapp.com/api/user/login', action.payload, config);
 
 
     yield put({ type: 'FETCH_USER' });
@@ -36,7 +36,7 @@ function* logoutUser(action) {
       withCredentials: true,
     };
 
-    yield axios.post('/api/user/logout', config);
+    yield axios.post('https://pro-lague-api.herokuapp.com/api/user/logout', config);
 
 
     yield put({ type: 'UNSET_USER' });
