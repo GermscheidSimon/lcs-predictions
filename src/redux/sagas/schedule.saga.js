@@ -9,7 +9,7 @@ const config = {
 function* fetchSchedule(action) {
     try {
       
-      const scheduleData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchSchedules`)
+      const scheduleData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchSchedules`, config)
 
       yield put({
           type: "SET_SCHEDULE", 
