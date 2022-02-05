@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { put, takeLatest} from 'redux-saga/effects';
 const config = {
+  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
+  crossDomain: true
 }
 
 function* fetchPickEmGroup(action) {
