@@ -1,6 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    crossDomain: true
+  }
+  
+
 // worker Saga: will be fired on "REGISTER" actions
 function* registerUser(action) {
   try {
@@ -8,7 +15,7 @@ function* registerUser(action) {
     yield put({ type: 'CLEAR_REGISTRATION_ERROR' });
 
     // passes the username and password from the payload to the server
-    yield axios.post('https://pro-lague-api.herokuapp.com/api/user/register', action.payload);
+    yield axios.post('https://pro-lague-api.herokuapp.com/api/user/register', action.payload, config);
 
     // automatically log a user in after registration
     yield put({ type: 'LOGIN', payload: action.payload });

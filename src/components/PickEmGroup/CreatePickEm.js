@@ -20,6 +20,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+    crossDomain: true
+  }
+  
 
 const style = {
   position: 'absolute',
@@ -46,7 +52,7 @@ class CreatePickEm extends Component{
     }
     fetchLeagues =  () => {
 
-          axios.get('https://pro-lague-api.herokuapp.com/api/schedule/fetchLeagues')
+          axios.get('https://pro-lague-api.herokuapp.com/api/schedule/fetchLeagues', config)
               .then((res) => {
                   this.setState({
                       ...this.state,
@@ -76,7 +82,7 @@ class CreatePickEm extends Component{
         })         
     }
     handleLeagueSelected = (event, li) => {
-        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`)
+        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`, config)
         .then((res) => {
             this.setState({
                 ...this.state,
@@ -101,7 +107,7 @@ class CreatePickEm extends Component{
             tourn: this.state.chosenTourn,
             groupName: this.state.groupName
         }
-        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm)
+        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm, config)
         .then((res) => {
             this.handleClose()
         })
