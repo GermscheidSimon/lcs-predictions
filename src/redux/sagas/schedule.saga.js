@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { put, takeLatest, takeEvery } from 'redux-saga/effects';
-
+const config = {
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+  crossDomain: true
+}
 
 function* fetchSchedule(action) {
     try {
