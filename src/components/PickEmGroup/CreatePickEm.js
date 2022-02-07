@@ -25,7 +25,8 @@ const config = {
     withCredentials: true,
     crossDomain: true
   }
-  
+  const serverURL = process.env.REACT_APP_URL
+
 
 const style = {
   position: 'absolute',
@@ -52,7 +53,7 @@ class CreatePickEm extends Component{
     }
     fetchLeagues =  () => {
 
-          axios.get('https://pro-lague-api.herokuapp.com/api/schedule/fetchLeagues', config)
+          axios.get(`${serverURL}/api/schedule/fetchLeagues`, config)
               .then((res) => {
                   this.setState({
                       ...this.state,
@@ -82,7 +83,7 @@ class CreatePickEm extends Component{
         })         
     }
     handleLeagueSelected = (event, li) => {
-        axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchTournByLeageID/${li.id}`, config)
+        axios.get(`${serverURL}/api/schedule/fetchTournByLeageID/${li.id}`, config)
         .then((res) => {
             this.setState({
                 ...this.state,
@@ -107,7 +108,7 @@ class CreatePickEm extends Component{
             tourn: this.state.chosenTourn,
             groupName: this.state.groupName
         }
-        axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/createNewGroup`, pickEm, config)
+        axios.post(`${serverURL}/api/pickEmGroup/createNewGroup`, pickEm, config)
         .then((res) => {
             this.handleClose()
         })

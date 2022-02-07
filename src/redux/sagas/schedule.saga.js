@@ -5,11 +5,11 @@ const config = {
   withCredentials: true,
   crossDomain: true
 }
-
+const serverURL = process.env.REACT_APP_URL
 function* fetchSchedule(action) {
     try {
       
-      const scheduleData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/fetchSchedules`, config)
+      const scheduleData = yield axios.get(`${serverURL}/api/schedule/fetchSchedules`, config)
 
       yield put({
           type: "SET_SCHEDULE", 

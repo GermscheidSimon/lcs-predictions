@@ -7,6 +7,10 @@ import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
+import Box from '@mui/material/Box';
 
 
 const PickEmWeek = (props) => {
@@ -33,6 +37,7 @@ const PickEmWeek = (props) => {
     })
     const [isCurWeek, setisCur] = useState(false)
     const [editMode, setEditMode] = useState(false)
+
 
 
     useEffect(() => {
@@ -67,16 +72,35 @@ const PickEmWeek = (props) => {
             {
                 isCurWeek ? 
                 <div>
-                    <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(!editMode)}>
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton aria-label="save" color="primary" onClick={() => updatePrediction()}>
-                        <SaveIcon />
-                    </IconButton>
+                    <Stack spacing={1} direction={'row'}>
+                        <Box sx={{
+                            eight: '40x'
+                        }}>
+                            <IconButton aria-label="edit" color="primary" onClick={() => setEditMode(!editMode)}>
+                                    <EditIcon />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{
+                            eight: '40x'
+                        }}>
+                            <IconButton aria-label="save" color="primary" onClick={() => updatePrediction()}>
+                                <SaveIcon />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{
+                            eight: '40x'
+                        }}>
+                            <Typography>
+                                Current Week
+                            </Typography>
+                        </Box>
+                    </Stack>
                 </div>
 
                 :
-                <></>
+                <Box sx={{
+                    height: '40px'
+                }}> </Box>
             }
 
             {

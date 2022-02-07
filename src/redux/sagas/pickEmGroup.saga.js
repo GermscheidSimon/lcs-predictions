@@ -5,11 +5,12 @@ const config = {
   withCredentials: true,
   crossDomain: true
 }
+const serverURL = process.env.REACT_APP_URL
 
 function* fetchPickEmGroup(action) {
     try {
       
-      const pickEmGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getMyGroups`, config)
+      const pickEmGroup = yield axios.get(`${serverURL}/api/pickEmGroup/getMyGroups`, config)
 
       yield put({
           type: "SET_PICKEM_GROUP", 
@@ -22,7 +23,7 @@ function* fetchPickEmGroup(action) {
   }
 function* fetchGroupByID(action){ 
     try {
-        const pickemGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getGroup/${action.payload}`, config)
+        const pickemGroup = yield axios.get(`${serverURL}/api/pickEmGroup/getGroup/${action.payload}`, config)
 
         yield put({
             type: "SET_GROUP",
@@ -35,7 +36,7 @@ function* fetchGroupByID(action){
 }
 function* fetchTeams(action){ 
   try {
-      const standingsData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/getstandings/${action.payload}`, config)
+      const standingsData = yield axios.get(`${serverURL}/api/schedule/getstandings/${action.payload}`, config)
       const standings = standingsData.data.data.standings[0].stages[0].sections[0].rankings
       let teams = []
       for (const rank of standings) {

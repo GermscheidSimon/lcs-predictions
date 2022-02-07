@@ -9,8 +9,8 @@ function* fetchUser() {
       withCredentials: true,
       crossDomain: true
     };
-
-    const response = yield axios.get('https://pro-lague-api.herokuapp.com/api/user', config);
+    const serverURL = process.env.REACT_APP_URL
+    const response = yield axios.get(`${serverURL}/api/user`, config);
 
     yield put({ type: 'SET_USER', payload: {...response.data, render: "COMPLETE" }});
   } catch (error) {
