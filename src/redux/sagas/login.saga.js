@@ -47,7 +47,6 @@ function* loginUser(action) {
           render: true,
           statusMessage: 'LOGIN FAILED',
           statusType: "Error",
-          renderTimeout: 2000
         }
       })
     }

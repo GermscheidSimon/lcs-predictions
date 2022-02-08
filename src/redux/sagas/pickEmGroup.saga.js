@@ -29,7 +29,14 @@ function* fetchPickEmGroup(action) {
       })
     } catch (error) {
         // through client error if unsuccessful
-      console.log('Failed to fetch schedule!',error);
+        yield put({
+          type:"SET_APP_STATUS",
+          payload: {
+            render: true,
+            statusMessage: 'Failed to fetch Groups', error,
+            statusType: "Error",
+          }
+        })
     }
   }
 function* fetchGroupByID(action){ 
@@ -53,7 +60,14 @@ function* fetchGroupByID(action){
         })
     } catch (error) {
         //  client error if unsuccessful
-      console.log('Failed to fetch schedule!',error);
+        yield put({
+          type:"SET_APP_STATUS",
+          payload: {
+            render: true,
+            statusMessage: 'Failed to fetch Group', error,
+            statusType: "Error",
+          }
+        })
     }
 }
 function* fetchTeams(action){ 
@@ -82,7 +96,14 @@ function* fetchTeams(action){
         type:"UNSET_STATUS"
       })
   } catch (error) {
-      //  client error if unsuccessful
+    yield put({
+      type:"SET_APP_STATUS",
+      payload: {
+        render: true,
+        statusMessage: 'Failed to fetch standings', error,
+        statusType: "Error",
+      }
+    })
   }
 }
 
@@ -119,6 +140,14 @@ function* updatePrediction(action){
   } catch (error) {
       //  client error if unsuccessful
     console.log('Failed to update Prediction!',error);
+    yield put({
+      type:"SET_APP_STATUS",
+      payload: {
+        render: true,
+        statusMessage: 'Save Unsuccessful', error,
+        statusType: "Error",
+      }
+    })
   }
 }
 function* joinGroup(action){ 
