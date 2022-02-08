@@ -117,11 +117,10 @@ function* updatePrediction(action){
           statusType: "Loading",
         }
       })
-      yield axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/prediction`, action.payload, config)
-      
+      yield axios.post(`${serverURL}/api/pickEmGroup/prediction`, action.payload, config)
       yield put({
           type: "FETCH_GROUP_BY_ID",
-          payload: {id: action.payload.groupID}
+          payload: action.payload.groupID
       })
       yield put({
         type:"SET_APP_STATUS",
@@ -132,7 +131,7 @@ function* updatePrediction(action){
         }
       })
       setTimeout(() => {
-        yield put({
+        put({
           type:"UNSET_STATUS"
         }),
         3000
@@ -152,7 +151,7 @@ function* updatePrediction(action){
 }
 function* joinGroup(action){ 
   try {
-      yield axios.put(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/joinGroup`, {code: action.payload}, config)
+      yield axios.put(`${serverURL}/api/pickEmGroup/joinGroup`, {code: action.payload}, config)
       
 
   } catch (error) {
