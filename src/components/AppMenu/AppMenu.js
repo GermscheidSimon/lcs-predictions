@@ -15,6 +15,7 @@ import SiteMenu from './SiteMenu';
 
 function MenuAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleLogout = (event) => {
     props.dispatch({ type: 'LOGOUT' })
@@ -22,10 +23,12 @@ function MenuAppBar(props) {
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
+    setOpenMenu(true)
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpenMenu(false)
   };
 
   return (
@@ -63,7 +66,7 @@ function MenuAppBar(props) {
                   vertical: 'top',
                   horizontal: 'right',
                 }}
-                open={Boolean(anchorEl)}
+                open={openMenu}
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
