@@ -135,7 +135,7 @@ class PickEmGroup extends Component{
                     this.props.store.group.events.length > 0 ?
                       this.state.weeks.map( (el, index) => {
                             return  (
-                                <TabPanel value={this.state.value} index={index} key={'panel' + el.week}  week={{matches: el.matches, index: index}} isCurrentWeek={this.checkIfCurrentWeek} weekIndex={index} />
+                                <TabPanel value={this.state.value} index={index} key={'panel' + el.week}  week={{matches: el.matches, index: index, start: el.start}} isCurrentWeek={this.checkIfCurrentWeek} weekIndex={index} />
                             )
                         })
                     :

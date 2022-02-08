@@ -14,6 +14,15 @@ const DateHelper = {
         const now = DateHelper.getCurrentTime().weekNumber
         const toCompare = DateHelper.getWeekOfYear(date)
         return now === toCompare
+    },
+    isPastWeekStart: (date) => {
+        const timeToCheckAgainstCurrent = DateTime.fromISO(date)
+        const currentTime = DateHelper.getCurrentTime()
+        if (currentTime > timeToCheckAgainstCurrent){
+            return true
+        } else {
+            return false
+        }
     }
 
 }
