@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 
 import Box from '@mui/material/Box';
 
+import DateHelper  from "../../Helpers/DateHelper";
 
 const PickEmWeek = (props) => {
 
@@ -37,6 +38,7 @@ const PickEmWeek = (props) => {
     })
     const [isCurWeek, setisCur] = useState(false)
     const [editMode, setEditMode] = useState(false)
+    const [gamesStarted, setGameStarted] = useState(false)
 
 
 
@@ -66,7 +68,10 @@ const PickEmWeek = (props) => {
         })
     }
     const checkForFirstMatchStart = () => {
-        console.log('isstart', props.week.matches)
+        const gamesHaveStarted = DateHelper.isPastWeekStart(props.week.start)
+        if(gamesHaveStarted) {
+            setGameStarted(true)
+        }
     }
     
 
@@ -75,7 +80,7 @@ const PickEmWeek = (props) => {
     return (
         <div  className="PickEmWeek">
             {
-                isCurWeek ? 
+                isCurWeek && gamesStarted !== true? 
                 <div>
                     <Stack spacing={1} direction={'row'}>
                         <Box sx={{
