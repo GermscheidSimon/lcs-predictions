@@ -1,0 +1,33 @@
+@keyframes QueueTransitionUp {
+    from {width: 100; height: 0; font-size: 0;}
+    to { height: 40px; font-size: inherit;}
+}
+.AppStatusBar{
+    width: 100%;
+    position: fixed;
+    top: 60px;
+    right: 0px;
+    height: 40px;
+    box-shadow: 0px 0px 20px 20px rgba(0,0,0,0.2);
+    animation-name: QueueTransitionUp;
+    animation-duration: .4s; 
+    text-align: center ;
+    padding-top: 2px;
+    opacity: 0.95;
+}
+
+.Default{
+    background-color: #2251a8;
+}
+.Error{
+    background-color: #e04327;
+}
+.Loading{
+    background-color: #2272a8;
+}
+.Success{
+    background-color: #25bb64;
+}
+.appStatusMessage{
+    padding-top: 7px;
+}

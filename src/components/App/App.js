@@ -7,6 +7,7 @@ import AppMenu from '../AppMenu/AppMenu'
 import ListPickEmGroups from '../PickEmGroup/ListPickEmGroups'
 
 import DateHelper from '../../Helpers/DateHelper.js';
+import AppStatusBar from '../AppStatusBar/AppStatusBar'
 
 
 import {
@@ -42,7 +43,6 @@ const Redirect = (props) => {
     }
   }
   const checkForAuthComp = () => {
-    console.log(!props.authredict && props.authComp !== undefined)
     if(!props.authredict && props.authComp !== undefined) {
       CompToShow = props.authComp
     }
@@ -53,7 +53,6 @@ const Redirect = (props) => {
   const params = useParams()
 
   useEffect(() =>{
-    console.log('ope')
     if(checkforuser()){
       if(props.authredict) {
         navigate(`${props.path}`, { replace: true })
@@ -89,6 +88,7 @@ function App(props) {
   return (
     <div className="App"> 
       <AppMenu />
+      <AppStatusBar />
 
           <BrowserRouter>
             <div className="appMain">

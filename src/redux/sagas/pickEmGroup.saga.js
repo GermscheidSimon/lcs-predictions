@@ -5,16 +5,28 @@ const config = {
   withCredentials: true,
   crossDomain: true
 }
+const serverURL = process.env.REACT_APP_URL
 
 function* fetchPickEmGroup(action) {
     try {
+      yield put({
+        type:"SET_APP_STATUS",
+        payload: {
+          render: true,
+          statusMessage: 'Fetching Groups...',
+          statusType: "Loading",
+        }
+      })
       
-      const pickEmGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getMyGroups`, config)
+      const pickEmGroup = yield axios.get(`${serverURL}/api/pickEmGroup/getMyGroups`, config)
 
       yield put({
           type: "SET_PICKEM_GROUP", 
           payload: pickEmGroup.data
       });
+      yield put({
+        type:"UNSET_STATUS"
+      })
     } catch (error) {
         // through client error if unsuccessful
       console.log('Failed to fetch schedule!',error);
@@ -22,11 +34,22 @@ function* fetchPickEmGroup(action) {
   }
 function* fetchGroupByID(action){ 
     try {
-        const pickemGroup = yield axios.get(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/getGroup/${action.payload}`, config)
+      yield put({
+        type:"SET_APP_STATUS",
+        payload: {
+          render: true,
+          statusMessage: 'Fetching Group...',
+          statusType: "Loading",
+        }
+      })
+        const pickemGroup = yield axios.get(`${serverURL}/api/pickEmGroup/getGroup/${action.payload}`, config)
 
         yield put({
             type: "SET_GROUP",
             payload: pickemGroup.data[0]
+        })
+        yield put({
+          type:"UNSET_STATUS"
         })
     } catch (error) {
         //  client error if unsuccessful
@@ -35,7 +58,16 @@ function* fetchGroupByID(action){
 }
 function* fetchTeams(action){ 
   try {
-      const standingsData = yield axios.get(`https://pro-lague-api.herokuapp.com/api/schedule/getstandings/${action.payload}`, config)
+      yield put({
+        type:"SET_APP_STATUS",
+        payload: {
+          render: true,
+          statusMessage: 'Getting standings...',
+          statusType: "Loading",
+        }
+      })
+
+      const standingsData = yield axios.get(`${serverURL}/api/schedule/getstandings/${action.payload}`, config)
       const standings = standingsData.data.data.standings[0].stages[0].sections[0].rankings
       let teams = []
       for (const rank of standings) {
@@ -45,6 +77,9 @@ function* fetchTeams(action){
       yield put({
           type: "SET_TEAMS",
           payload: teams
+      })
+      yield put({
+        type:"UNSET_STATUS"
       })
   } catch (error) {
       //  client error if unsuccessful

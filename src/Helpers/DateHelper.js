@@ -11,10 +11,8 @@ const DateHelper = {
     },
 
     checkIfSameWeek: (date) => {
-        console.log(date);
         const now = DateHelper.getCurrentTime().weekNumber
         const toCompare = DateHelper.getWeekOfYear(date)
-        console.log(toCompare, now);
         return now === toCompare
     }
 

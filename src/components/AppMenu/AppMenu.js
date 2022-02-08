@@ -31,7 +31,7 @@ function MenuAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
     
-      <AppBar position="static">
+      <AppBar position="fixed" sx={{height: '60px'}}>
         <Toolbar>
 
             <SiteMenu />
