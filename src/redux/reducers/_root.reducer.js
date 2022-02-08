@@ -7,6 +7,7 @@ import errors from './error.reducer'
 import user from './user.reducer'
 import group from './groupData.reducer';
 import teams from './teams.reducer'
+import appStatus from './appStatus.reducer'
 
 const rootReducer =  combineReducers({
   schedule,
@@ -14,7 +15,8 @@ const rootReducer =  combineReducers({
   errors,
   user,
   group,
-  teams
+  teams,
+  appStatus
 })
 
 export default rootReducer;

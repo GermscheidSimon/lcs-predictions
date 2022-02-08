@@ -55,6 +55,7 @@ const PickEmWeek = (props) => {
                 }
             }
         }
+        checkForFirstMatchStart()
       }, [props.store.group.predictions])
 
     const updatePrediction = () => {
@@ -64,6 +65,10 @@ const PickEmWeek = (props) => {
             payload: weekPrediction
         })
     }
+    const checkForFirstMatchStart = () => {
+        console.log('isstart', props.week.matches)
+    }
+    
 
     
 

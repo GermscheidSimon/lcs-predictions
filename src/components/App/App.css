@@ -2,6 +2,7 @@ body{
     margin: 0;
     background-color: #242424;
     color: white;
+    margin-top: 150px;
 }
 .ListPickEmGroups{
     margin: 1%;
@@ -22,4 +23,5 @@ body{
 .match-VS-text{
     margin-top: 35px;
     margin-bottom: 30px;
+
 }

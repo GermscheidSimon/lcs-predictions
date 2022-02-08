@@ -6,8 +6,15 @@ const serverURL = process.env.REACT_APP_URL
 function* loginUser(action) {
   try {
 
-    yield put({ type: 'ATTEMPTING_LOGIN' });
-    console.log('hello from saga');
+    yield put({ 
+      type: 'SET_APP_STATUS',
+      payload: {
+        render: true,
+        statusMessage: 'Logging In...',
+        statusType: "Loading",
+        renderTimeout: 1000
+      }
+     });
     const config = {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
@@ -22,9 +29,27 @@ function* loginUser(action) {
     if (error.response.status === 401) {
 
       yield put({ type: 'LOGIN_FAILED' });
+      yield put({
+        type: 'SET_APP_STATUS',
+        payload: {
+          render: true,
+          statusMessage: 'LOGIN FAILED',
+          statusType: "Error",
+          renderTimeout: 2000
+        }
+      })
     } else {
 
       yield put({ type: 'LOGIN_FAILED_NO_CODE' });
+      yield put({
+        type: 'SET_APP_STATUS',
+        payload: {
+          render: true,
+          statusMessage: 'LOGIN FAILED',
+          statusType: "Error",
+          renderTimeout: 2000
+        }
+      })
     }
   }
 }
@@ -35,9 +60,10 @@ function* logoutUser(action) {
     const config = {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
+      crossDomain: true
     };
 
-    yield axios.post(`${serverURL}/api/user/logout`, config);
+    yield axios.get(`${serverURL}/api/user/logout`, config);
 
 
     yield put({ type: 'UNSET_USER' });
