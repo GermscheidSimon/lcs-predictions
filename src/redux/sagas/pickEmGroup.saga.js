@@ -88,11 +88,33 @@ function* fetchTeams(action){
 
 function* updatePrediction(action){ 
   try {
+      yield put({
+        type:"SET_APP_STATUS",
+        payload: {
+          render: true,
+          statusMessage: 'Saving Your Predictions',
+          statusType: "Loading",
+        }
+      })
       yield axios.post(`https://pro-lague-api.herokuapp.com/api/pickEmGroup/prediction`, action.payload, config)
       
       yield put({
           type: "FETCH_GROUP_BY_ID",
           payload: {id: action.payload.groupID}
+      })
+      yield put({
+        type:"SET_APP_STATUS",
+        payload: {
+          render: true,
+          statusMessage: 'Save Success!',
+          statusType: "Success",
+        }
+      })
+      setTimeout(() => {
+        yield put({
+          type:"UNSET_STATUS"
+        }),
+        3000
       })
   } catch (error) {
       //  client error if unsuccessful
